@@ -163,9 +163,16 @@ function changeConsoleTitle {
 	
 	case $TERM in
 		xterm*)
-			print -Pn "\e]0;${APPLICATION_DIR} - ${consoletitle}\a"
+			if [ -n "$ZSH_VERSION" ]; then
+				print -Pn "\e]0;${APPLICATION_DIR} - ${consoletitle}\a"
+			elif [ -n "$BASH_VERSION" ]; then
+				printf '\033]0;%s - %s\007' "$APPLICATION_DIR" "$consoletitle"
+			fi
+			
 			;;
 	esac
+
+
 }
 
 #function restoreConsoleTitle {
